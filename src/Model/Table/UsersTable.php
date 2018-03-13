@@ -68,8 +68,28 @@ class UsersTable extends Table
             ->requirePresence('password', 'create')
             ->notEmpty('password');
 
+            $validator
+                ->requirePresence('cPassword', 'create', 'Password must be required!')
+                ->notEmpty('cPassword', 'Confirm password must be required!')
+                ->add(
+                    'cPassword',
+                    'custom',
+                    [
+                        'rule' => function ($value, $context) {
+                                if (isset($context['data']['password']) && $value == $context['data']['password']) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        'message' => 'Sorry, password and confirm password does not matched'
+                    ]
+                );
+
+
+
         return $validator;
     }
+
 
     /**
      * Returns a rules checker object that will be used for validating

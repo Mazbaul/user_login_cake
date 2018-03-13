@@ -6,6 +6,7 @@
 			<?= $this->Form->input('name'); ?>
 			<?= $this->Form->input('email'); ?>
 			<?= $this->Form->input('password', array('type' => 'password')); ?>
+			<?= $this->Form->input('cPassword',array('type'  =>  'password')); ?>
 			<?= $this->Form->submit('Register', array('class' => 'button')); ?>
 		<?= $this->Form->end(); ?>
 	</div>
