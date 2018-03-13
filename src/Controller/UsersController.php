@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Controller\Component\AuthComponent;
+use Cake\Event\Event;
 /**
  * Users Controller
  *
@@ -116,4 +117,26 @@ class UsersController extends AppController
           $this->Flash->error('Incorrect Login');
       }
   }
+  public function register(){
+        $user = $this->Users->newEntity();
+        if($this->request->is('post')){
+            $user = $this->Users->patchEntity($user, $this->request->data);
+            if($this->Users->save($user)){
+                $this->Flash->success('You are registered and can login');
+                return $this->redirect(['action' => 'login']);
+            } else {
+                $this->Flash->error('You are not registered');
+            }
+        }
+        $this->set(compact('user'));
+        $this->set('_serialzie', ['user']);
+    }
+    public function logout(){
+        $this->Flash->success('You are logged out');
+        return $this->redirect($this->Auth->logout());
+   }
+
+   public function beforeFilter(Event $event){
+          $this->Auth->allow(['register']);
+      }
 }
